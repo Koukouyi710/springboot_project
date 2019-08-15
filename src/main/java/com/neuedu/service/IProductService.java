@@ -9,4 +9,9 @@ public interface IProductService {
      *新增or更新商品
      */
     public ServerResponse save(Product product);
+
+    /**
+     *商品上下架
+     */
+    public ServerResponse set_sale_status(Integer productId,Integer status);
 }

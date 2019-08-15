@@ -50,4 +50,25 @@ public class ProductServiceImpl implements IProductService{
         }
         //step4:返回结果
     }
+
+    @Override
+    public ServerResponse set_sale_status(Integer productId, Integer status) {
+        //step1:参数非空校验
+        if (productId==null||productId.equals("")){
+            return ServerResponse.createServerResponseByFail("商品id不能为空！");
+        }
+        if (status==null||status.equals("")){
+            return ServerResponse.createServerResponseByFail("商品状态不能为空！");
+        }
+        //step2:更新
+        Product product = new Product();
+        product.setId(productId);
+        product.setStatus(status);
+        int result = productMapper.updateByPrimaryKey(product);
+        //step3:返回结果
+        if (result>0){
+            return ServerResponse.createServerResponseBySucess();
+        }
+        return ServerResponse.createServerResponseByFail("修改失败");
+    }
 }

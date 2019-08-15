@@ -33,4 +33,36 @@ public class ProductManageController {
         }
         return productService.save(product);
     }
+
+    /**
+     * 产品上下架
+     */
+    @RequestMapping(value = "/set_sale_status.do")
+    public ServerResponse set_sale_status(HttpSession session,Integer productId,Integer status){
+        UserInfo userInfo = (UserInfo)session.getAttribute(Const.CURRENT_USER);
+        if (userInfo==null){
+            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
+        }
+        //判断用户权限
+        if (userInfo.getRole()!=Const.RoleEnum.ROLE_ADMIN.getCode()){
+            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NO_PRIVILEGE.getCode(),Const.ResponseCodeEunm.NO_PRIVILEGE.getDesc());
+        }
+        return productService.set_sale_status(productId,status);
+    }
+
+    /**
+     * 产品上下架
+     */
+    @RequestMapping(value = "/detail.do")
+    public ServerResponse detail(HttpSession session,Integer productId){
+        UserInfo userInfo = (UserInfo)session.getAttribute(Const.CURRENT_USER);
+        if (userInfo==null){
+            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
+        }
+        //判断用户权限
+        if (userInfo.getRole()!=Const.RoleEnum.ROLE_ADMIN.getCode()){
+            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NO_PRIVILEGE.getCode(),Const.ResponseCodeEunm.NO_PRIVILEGE.getDesc());
+        }
+        return productService.detail(productId);
+    }
 }
