@@ -53,4 +53,9 @@ public interface CategoryMapper {
 
     //分页
     List<Category> findByPage(HashMap<String, Object> map);
+
+    /**
+     * 查询子类(平级)
+     */
+    List<Category>findChildCategory(Integer categoryId);
 }

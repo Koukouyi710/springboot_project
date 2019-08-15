@@ -1,6 +1,8 @@
-echo "# springboot_project" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
+git add .
+
+git commit -m "ÃèÊöÎÄ×Ö"
+
+git remote rm origin
+
 git remote add origin https://github.com/Koukouyi710/springboot_project.git
 git push -u origin master

@@ -92,4 +92,11 @@
   </if>
   </select>
 
+  <!--查询子类别-->
+  <select id="findChildCategory" parameterType="int" resultMap="BaseResultMap">
+    select
+  id, parent_id, name, status, sort_order, create_time, update_time
+  from neuedu_category
+  where parent_id=#{categoryId}
+  </select>
 </mapper>
