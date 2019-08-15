@@ -1,5 +1,7 @@
 package com.neuedu.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.neuedu.common.Const;
 import com.neuedu.common.ServerResponse;
 import com.neuedu.dao.UserInfoMapper;
@@ -11,6 +13,7 @@ import com.neuedu.utils.TokenCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -234,6 +237,19 @@ public class UserServiceImpl implements IUserService {
             return ServerResponse.createServerResponseBySucess("信息修改成功！");
         }
         return ServerResponse.createServerResponseByFail("信息修改失败！");
+    }
+
+    @Override
+    public ServerResponse list(Integer pageSize, Integer pageNum) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<UserInfo> userInfoList=userInfoMapper.selectAll();
+        Iterator<UserInfo> userInfoIterator = userInfoList.iterator();
+        while (userInfoIterator.hasNext()){
+            UserInfo userInfo = userInfoIterator.next();
+            userInfo.setPassword("");
+        }
+        PageInfo pageInfo = new PageInfo(userInfoList);
+        return ServerResponse.createServerResponseBySucess(pageInfo);
     }
 
     @Override

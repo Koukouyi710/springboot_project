@@ -39,10 +39,14 @@ public interface IUserService {
      * 登录状态下修改信息
      * */
     public ServerResponse update_information(UserInfo user);
-
     /**
-     * 查询用户
+     * 用户列表
      * */
+    public ServerResponse list(Integer pageSize,Integer pageNum);
+
+        /**
+         * 查询用户
+         * */
     public List<UserInfo> findAll()throws MyException;
     /**
      * 修改用户
