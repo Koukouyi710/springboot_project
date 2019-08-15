@@ -51,7 +51,7 @@ public class ProductManageController {
     }
 
     /**
-     * 产品上下架
+     * 查看商品详情
      */
     @RequestMapping(value = "/detail.do")
     public ServerResponse detail(HttpSession session,Integer productId){

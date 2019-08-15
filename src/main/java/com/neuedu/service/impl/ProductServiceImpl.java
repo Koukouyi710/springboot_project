@@ -1,9 +1,14 @@
 package com.neuedu.service.impl;
 
 import com.neuedu.common.ServerResponse;
+import com.neuedu.dao.CategoryMapper;
 import com.neuedu.dao.ProductMapper;
+import com.neuedu.pojo.Category;
 import com.neuedu.pojo.Product;
 import com.neuedu.service.IProductService;
+import com.neuedu.utils.DateUtils;
+import com.neuedu.utils.PropertiesUtils;
+import com.neuedu.vo.ProductDetailVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +17,9 @@ public class ProductServiceImpl implements IProductService{
 
     @Autowired
     ProductMapper productMapper;
+
+    @Autowired
+    CategoryMapper categoryMapper;
 
     @Override
     public ServerResponse save(Product product) {
@@ -70,5 +78,46 @@ public class ProductServiceImpl implements IProductService{
             return ServerResponse.createServerResponseBySucess();
         }
         return ServerResponse.createServerResponseByFail("修改失败");
+    }
+
+    @Override
+    public ServerResponse detail(Integer productId) {
+        //step1:非空校验
+        if (productId==null||productId.equals("")){
+            return ServerResponse.createServerResponseByFail("商品id不能为空！");
+        }
+        //step2:查询product
+        Product product = productMapper.selectByPrimaryKey(productId);
+        if (product==null){
+            return ServerResponse.createServerResponseByFail("商品不存在");
+        }
+        //step3:product --> productDetailVO
+        ProductDetailVO productDetailVO = assembleProductDetailVO(product);
+        //step4:返回结果
+        return ServerResponse.createServerResponseBySucess(productDetailVO);
+    }
+
+    private ProductDetailVO assembleProductDetailVO(Product product){
+        ProductDetailVO productDetailVO = new ProductDetailVO();
+        productDetailVO.setCategoryId(product.getCategoryId());
+        productDetailVO.setCreateTime(DateUtils.dateToString(product.getCreateTime()));
+        productDetailVO.setDetail(product.getDetail());
+        productDetailVO.setImageHost(PropertiesUtils.readByKey("imageHost"));
+        productDetailVO.setName(product.getName());
+        productDetailVO.setMainImage(product.getMainImage());
+        productDetailVO.setId(product.getId());
+        productDetailVO.setPrice(product.getPrice());
+        productDetailVO.setStatus(product.getStatus());
+        productDetailVO.setStock(product.getStock());
+        productDetailVO.setSubImages(product.getSubImages());
+        productDetailVO.setUpdateTime(DateUtils.dateToString(product.getUpdateTime()));
+        productDetailVO.setSubtitle(product.getSubtitle());
+        Category category = categoryMapper.selectByPrimaryKey(product.getCategoryId());
+        if (category!=null){
+            productDetailVO.setParentCategoryId(category.getParentId());
+        }else{
+            productDetailVO.setParentCategoryId(0);
+        }
+        return productDetailVO;
     }
 }

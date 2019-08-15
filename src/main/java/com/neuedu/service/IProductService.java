@@ -14,4 +14,12 @@ public interface IProductService {
      *商品上下架
      */
     public ServerResponse set_sale_status(Integer productId,Integer status);
+
+    /**
+     *商品详情
+     */
+    public ServerResponse detail(Integer productId);
+
+
+
 }
