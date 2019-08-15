@@ -20,4 +20,9 @@ public interface ICategoryService {
      */
     public ServerResponse set_category(Category category);
 
+    /**
+     * 获取当前分类id及递归子节点categoryId
+     */
+    public ServerResponse get_deep_category(Integer categoryId);
+
 }

@@ -67,4 +67,21 @@ public class CategoryManageController {
 
         return categoryService.set_category(category);
     }
+
+    /**
+     * 获取当前分类id及递归子节点categoryId
+     */
+    @RequestMapping(value = "/get_deep_category.do")
+    public ServerResponse get_deep_category(HttpSession session,Integer categoryId){
+        UserInfo userInfo = (UserInfo)session.getAttribute(Const.CURRENT_USER);
+        if (userInfo==null){
+            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
+        }
+        //判断用户权限
+        if (userInfo.getRole()!=Const.RoleEnum.ROLE_ADMIN.getCode()){
+            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NO_PRIVILEGE.getCode(),Const.ResponseCodeEunm.NO_PRIVILEGE.getDesc());
+        }
+
+        return categoryService.get_deep_category(categoryId);
+    }
 }
