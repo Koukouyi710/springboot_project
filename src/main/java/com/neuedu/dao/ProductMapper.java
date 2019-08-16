@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 @Mapper
 public interface ProductMapper {
@@ -66,5 +67,12 @@ public interface ProductMapper {
      */
     List<Product> findProductByProductIdAndProductName(@Param("productId") Integer productId,
                                                        @Param("productName") String productName);
+
+
+    /**
+     * 搜索
+     */
+    List<Product> searchProduct(@Param("integerSet") Set<Integer> integerSet,
+                                @Param("keyword") String keyword);
 
 }

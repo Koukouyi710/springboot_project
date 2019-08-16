@@ -106,4 +106,6 @@ public class ProductManageController {
 
         return productService.search(productName,productId,pageNum,pageSize);
     }
+
+
 }
