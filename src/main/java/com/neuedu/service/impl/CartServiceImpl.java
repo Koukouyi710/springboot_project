@@ -27,6 +27,12 @@ public class CartServiceImpl implements ICartService{
     ProductMapper productMapper;
 
     @Override
+    public ServerResponse list(Integer userId) {
+        CartVO cartVO = assembleCartVO(userId);
+        return ServerResponse.createServerResponseBySucess(cartVO);
+    }
+
+    @Override
     public ServerResponse add(Integer userId,Integer productId, Integer count) {
 
         //Step1:参数非空校验

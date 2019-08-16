@@ -19,6 +19,18 @@ public class CartContronller {
     ICartService cartService;
 
     /**
+     * 购物车列表
+     */
+    @RequestMapping(value = "/list.do")
+    public ServerResponse list(HttpSession session){
+        UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
+        if (userInfo==null){
+            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
+        }
+        return cartService.list(userInfo.getId());
+    }
+
+    /**
      * 添加商品
      */
     @RequestMapping(value = "/add.do")
