@@ -4,7 +4,10 @@ import com.neuedu.common.Const;
 import com.neuedu.common.ServerResponse;
 import com.neuedu.pojo.UserInfo;
 import com.neuedu.service.IUserService;
+import com.neuedu.utils.DateUtils;
 import com.neuedu.utils.MD5Utils;
+import com.neuedu.vo.UserDetailVO;
+import com.neuedu.vo.UserInfoVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -106,12 +109,21 @@ public class UserController {
         if (userInfo==null){
             return ServerResponse.createServerResponseByFail("用户未登录");
         }
-        userInfo.setPassword("");
-        userInfo.setQuestion("");
-        userInfo.setAnswer("");
-        userInfo.setRole(null);
-        return ServerResponse.createServerResponseBySucess(userInfo);
+        UserInfoVO userInfoVO = assembleUserInfoVO(userInfo);
+        return ServerResponse.createServerResponseBySucess(userInfoVO);
     }
+
+    private UserInfoVO assembleUserInfoVO(UserInfo userInfo){
+        UserInfoVO userInfoVO = new UserInfoVO();
+        userInfoVO.setCreateTime(DateUtils.dateToString(userInfo.getCreateTime()));
+        userInfoVO.setUsername(userInfo.getUsername());
+        userInfoVO.setEmail(userInfo.getEmail());
+        userInfoVO.setId(userInfo.getId());
+        userInfoVO.setPhone(userInfo.getPhone());
+        userInfoVO.setUpdateTime(DateUtils.dateToString(userInfo.getUpdateTime()));
+        return userInfoVO;
+    }
+
 
     /**
      *登录状态下重置密码
@@ -147,8 +159,22 @@ public class UserController {
         if (userInfo==null){
             return ServerResponse.createServerResponseByFail("用户未登录");
         }
-        userInfo.setPassword("");
-        return ServerResponse.createServerResponseBySucess(userInfo);
+        UserDetailVO userDetailVO = assembleUserDetailVO(userInfo);
+        return ServerResponse.createServerResponseBySucess(userDetailVO);
+    }
+
+    private UserDetailVO assembleUserDetailVO(UserInfo userInfo){
+        UserDetailVO userDetailVO = new UserDetailVO();
+        userDetailVO.setCreateTime(DateUtils.dateToString(userInfo.getCreateTime()));
+        userDetailVO.setUsername(userInfo.getUsername());
+        userDetailVO.setEmail(userInfo.getEmail());
+        userDetailVO.setId(userInfo.getId());
+        userDetailVO.setPhone(userInfo.getPhone());
+        userDetailVO.setAnswer(userInfo.getAnswer());
+        userDetailVO.setQuestion(userInfo.getQuestion());
+        userDetailVO.setRole(userInfo.getRole());
+        userDetailVO.setUpdateTime(DateUtils.dateToString(userInfo.getUpdateTime()));
+        return userDetailVO;
     }
 
     /**

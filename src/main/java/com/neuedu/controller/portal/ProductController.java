@@ -25,10 +25,10 @@ public class ProductController {
      */
     @RequestMapping(value = "/detail.do")
     public ServerResponse detail(HttpSession session,
-                                 @RequestParam("productId") Integer productId,
-                                 @RequestParam("is_new ") Integer is_new ,
-                                 @RequestParam("is_hot ") Integer is_hot ,
-                                 @RequestParam("is_banner ") Integer is_banner ){
+                                 @RequestParam(name = "productId",required = false) Integer productId,
+                                 @RequestParam(name = "is_new",required = false) Integer is_new ,
+                                 @RequestParam(name = "is_hot",required = false) Integer is_hot ,
+                                 @RequestParam(name = "is_banner",required = false) Integer is_banner ){
         return productService.udetail(productId,is_new,is_hot,is_banner);
     }
 
