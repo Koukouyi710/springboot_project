@@ -41,7 +41,7 @@ public class CartProductVO implements Serializable{
     private Integer productChecked;
 
     //数量限制
-    private Integer limitQuantity;
+    private String limitQuantity;
 
     public Integer getId() {
         return id;
@@ -139,11 +139,11 @@ public class CartProductVO implements Serializable{
         this.productChecked = productChecked;
     }
 
-    public Integer getLimitQuantity() {
+    public String getLimitQuantity() {
         return limitQuantity;
     }
 
-    public void setLimitQuantity(Integer limitQuantity) {
+    public void setLimitQuantity(String limitQuantity) {
         this.limitQuantity = limitQuantity;
     }
 }
