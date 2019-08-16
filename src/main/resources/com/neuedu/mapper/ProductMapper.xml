@@ -92,9 +92,6 @@
         sub_images = #{product.subImages,jdbcType=LONGVARCHAR},
       </if>
 
-      <if test="product.detail!=null and product.detail!=''">
-        detail = #{product.detail,jdbcType=LONGVARCHAR},
-      </if>
       <if test="product.isNew!=null and product.isNew!=''">
         is_new = #{product.isNew,jdbcType=INTEGER},
       </if>
