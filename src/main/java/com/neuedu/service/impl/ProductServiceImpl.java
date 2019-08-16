@@ -120,6 +120,9 @@ public class ProductServiceImpl implements IProductService{
 
     private ProductDetailVO assembleProductDetailVO(Product product){
         ProductDetailVO productDetailVO = new ProductDetailVO();
+        productDetailVO.setIs_new(product.getIsNew());
+        productDetailVO.setIs_hot(product.getIsHot());
+        productDetailVO.setIs_banner(product.getIsBanner());
         productDetailVO.setCategoryId(product.getCategoryId());
         productDetailVO.setCreateTime(DateUtils.dateToString(product.getCreateTime()));
         productDetailVO.setDetail(product.getDetail());
@@ -221,19 +224,26 @@ public class ProductServiceImpl implements IProductService{
 
     @Override
     public ServerResponse udetail(Integer productId, Integer is_new, Integer is_hot, Integer is_banner) {
-        //数据库无is_new、is_hot、is_banner 只按id查
-        if (productId==null||productId.equals("")){
-            return ServerResponse.createServerResponseByFail("商品id不能为空！");
+        if (productId!=null){
+            Product product = productMapper.selectByPrimaryKey(productId);
+            if (product==null){
+                return ServerResponse.createServerResponseByFail("商品不存在");
+            }
+            if (product.getStatus()!= Const.ProductStatusEunm.PRODUCT_ONLINE.getCode()){
+                return ServerResponse.createServerResponseByFail("商品未上架或已删除！");
+            }
+            ProductDetailVO productDetailVO = assembleProductDetailVO(product);
+            return ServerResponse.createServerResponseBySucess(productDetailVO);
         }
-        Product product = productMapper.selectByPrimaryKey(productId);
-        if (product==null){
-            return ServerResponse.createServerResponseByFail("商品不存在");
+        List<Product> productList = productMapper.selectByMark(is_new,is_hot,is_banner);
+        List<ProductDetailVO> productDetailVOList = Lists.newArrayList();
+        if (productList!=null&&productList.size()>0){
+            for (Product product:productList){
+                ProductDetailVO productDetailVO = assembleProductDetailVO(product);
+                productDetailVOList.add(productDetailVO);
+            }
         }
-        if (product.getStatus()!= Const.ProductStatusEunm.PRODUCT_ONLINE.getCode()){
-            return ServerResponse.createServerResponseByFail("商品未上架或已删除！");
-        }
-        ProductDetailVO productDetailVO = assembleProductDetailVO(product);
-        return ServerResponse.createServerResponseBySucess(productDetailVO);
+        return ServerResponse.createServerResponseBySucess(productDetailVOList);
     }
     @Override
     public ServerResponse ulist(Integer categoryId, String keyword, Integer pageNum, Integer pageSize, String orderBy) {

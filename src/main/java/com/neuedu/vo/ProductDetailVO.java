@@ -15,6 +15,9 @@ public class ProductDetailVO {
     private BigDecimal price;
     private Integer stock;
     private Integer status;
+    private Integer is_new;
+    private Integer is_hot;
+    private Integer is_banner;
     private String createTime;
     private String updateTime;
 
@@ -128,5 +131,29 @@ public class ProductDetailVO {
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getIs_new() {
+        return is_new;
+    }
+
+    public void setIs_new(Integer is_new) {
+        this.is_new = is_new;
+    }
+
+    public Integer getIs_hot() {
+        return is_hot;
+    }
+
+    public void setIs_hot(Integer is_hot) {
+        this.is_hot = is_hot;
+    }
+
+    public Integer getIs_banner() {
+        return is_banner;
+    }
+
+    public void setIs_banner(Integer is_banner) {
+        this.is_banner = is_banner;
     }
 }

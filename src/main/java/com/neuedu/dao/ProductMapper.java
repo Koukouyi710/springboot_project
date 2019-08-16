@@ -80,4 +80,12 @@ public interface ProductMapper {
      * 获取商品分类
      */
     List<Product> selectBySId(@Param("sid") Integer sid);
+
+    /**
+     * 按照productId/Name模糊查询
+     */
+    List<Product> selectByMark(@Param("isNew") Integer isNew,
+                               @Param("isHot") Integer isHot,
+                               @Param("isBannner") Integer isBannner);
+
 }

@@ -201,4 +201,21 @@
     from neuedu_product
     where category_id=#{sid}
   </select>
+
+  <select id="selectByMark"  parameterType="Map" resultMap="BaseResultMap">
+    select id, category_id, name, subtitle, main_image, price, stock, status, is_new, is_hot, is_banner, create_time,
+    update_time, sub_images, detail
+    from neuedu_product
+    <where>
+      <if test="isNew!=null and isNew!=''">
+       and is_new=#{isNew}
+      </if>
+      <if test="isHot!=null and isHot!=''">
+        and is_hot=#{isHot}
+      </if>
+      <if test="isBannner!=null and isBannner!=''">
+        and is_banner=#{isBannner}
+      </if>
+    </where>
+  </select>
 </mapper>
