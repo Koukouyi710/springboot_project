@@ -46,4 +46,9 @@ public interface IProductService {
      */
     public ServerResponse udetail(Integer productId,Integer is_new ,Integer is_hot ,Integer is_banner );
 
+    /**
+     *前台-获取商品分类
+     */
+    public ServerResponse topcategory(Integer sid);
+
 }

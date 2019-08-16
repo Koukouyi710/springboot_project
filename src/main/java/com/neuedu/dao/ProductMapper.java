@@ -75,4 +75,9 @@ public interface ProductMapper {
     List<Product> searchProduct(@Param("integerSet") Set<Integer> integerSet,
                                 @Param("keyword") String keyword);
 
+
+    /**
+     * 获取商品分类
+     */
+    List<Product> selectBySId(@Param("sid") Integer sid);
 }

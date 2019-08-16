@@ -54,4 +54,12 @@ public class ProductController {
                                @RequestParam(name = "sid",required = false,defaultValue = "0") Integer sid){
         return productService.topcategory(sid);
     }
+
+    /**
+     * 日志调用空接口
+     */
+    @RequestMapping(value = "/logempty.do")
+    public ServerResponse logempty(){
+        return ServerResponse.createServerResponseBySucess("调用成功！");
+    }
 }

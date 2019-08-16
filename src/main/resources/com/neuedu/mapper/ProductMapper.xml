@@ -182,4 +182,11 @@
       </if>
     </where>
   </select>
+
+  <select id="selectBySId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select id, category_id, name, subtitle, main_image, price, stock, status, create_time,
+    update_time, sub_images, detail
+    from neuedu_product
+    where category_id=#{sid}
+  </select>
 </mapper>
