@@ -153,4 +153,22 @@ public class ProductServiceImpl implements IProductService{
         productListVO.setPrice(product.getPrice());
         return productListVO;
     }
+
+    @Override
+    public ServerResponse search(String productName, Integer productId, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        if (productName!=null&&!productName.equals("")){
+            productName="%"+productName+"%";
+        }
+        List<Product> productList=productMapper.findProductByProductIdAndProductName(productId,productName);
+        List<ProductListVO> productListVOList = Lists.newArrayList();
+        if (productList!=null&&productList.size()>0){
+            for (Product product:productList){
+                ProductListVO productListVO = assembleProductListVO(product);
+                productListVOList.add(productListVO);
+            }
+        }
+        PageInfo pageInfo = new PageInfo(productListVOList);
+        return ServerResponse.createServerResponseBySucess(pageInfo);
+    }
 }

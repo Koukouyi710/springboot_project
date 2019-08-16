@@ -149,4 +149,20 @@
     </if>
   </select>
 
+
+  <select id="findProductByProductIdAndProductName"  parameterType="Map" resultMap="BaseResultMap">
+    select
+    id, category_id, name, subtitle, main_image, price, stock, status, create_time,
+    update_time, sub_images, detail
+    from neuedu_product
+    <where>
+      <if test="productId!=null and productId!=''">
+        and id=#{productId}
+      </if>
+      <if test="productName!=null and productName!=''">
+        and name like #{productName}
+      </if>
+    </where>
+  </select>
+
 </mapper>

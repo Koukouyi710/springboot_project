@@ -60,4 +60,11 @@ public interface ProductMapper {
 
     //分页
     List<Product> findByPagedown(HashMap<String, Object> map);
+
+    /**
+     * 按照productId/Name模糊查询
+     */
+    List<Product> findProductByProductIdAndProductName(@Param("productId") Integer productId,
+                                                       @Param("productName") String productName);
+
 }

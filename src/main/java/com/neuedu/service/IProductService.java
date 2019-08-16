@@ -25,4 +25,9 @@ public interface IProductService {
      */
     public ServerResponse list(Integer pageNum,Integer pageSize);
 
+    /**
+     *商品搜索
+     */
+    public ServerResponse search(String productName,Integer productId,Integer pageNum,Integer pageSize);
+
 }
