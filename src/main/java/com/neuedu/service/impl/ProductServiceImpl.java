@@ -1,5 +1,8 @@
 package com.neuedu.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.neuedu.common.ServerResponse;
 import com.neuedu.dao.CategoryMapper;
 import com.neuedu.dao.ProductMapper;
@@ -9,8 +12,11 @@ import com.neuedu.service.IProductService;
 import com.neuedu.utils.DateUtils;
 import com.neuedu.utils.PropertiesUtils;
 import com.neuedu.vo.ProductDetailVO;
+import com.neuedu.vo.ProductListVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ProductServiceImpl implements IProductService{
@@ -119,5 +125,32 @@ public class ProductServiceImpl implements IProductService{
             productDetailVO.setParentCategoryId(0);
         }
         return productDetailVO;
+    }
+
+    @Override
+    public ServerResponse list(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<Product> productList=productMapper.selectAll();
+        List<ProductListVO> productListVOList = Lists.newArrayList();
+        if (productList!=null&&productList.size()>0){
+            for (Product product:productList){
+                ProductListVO productListVO = assembleProductListVO(product);
+                productListVOList.add(productListVO);
+            }
+        }
+        PageInfo pageInfo = new PageInfo(productListVOList);
+        return ServerResponse.createServerResponseBySucess(pageInfo);
+    }
+
+    private ProductListVO assembleProductListVO(Product product){
+        ProductListVO productListVO = new ProductListVO();
+        productListVO.setId(product.getId());
+        productListVO.setCategoryId(product.getCategoryId());
+        productListVO.setName(product.getName());
+        productListVO.setSubtitle(product.getSubtitle());
+        productListVO.setMainImage(product.getMainImage());
+        productListVO.setStatus(product.getStatus());
+        productListVO.setPrice(product.getPrice());
+        return productListVO;
     }
 }

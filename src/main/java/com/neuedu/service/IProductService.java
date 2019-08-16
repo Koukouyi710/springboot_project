@@ -20,6 +20,9 @@ public interface IProductService {
      */
     public ServerResponse detail(Integer productId);
 
-
+    /**
+     *商品列表
+     */
+    public ServerResponse list(Integer pageNum,Integer pageSize);
 
 }
