@@ -114,4 +114,15 @@
       </if>
     </where>
   </delete>
+
+  <!--是否 选中/全选-->
+  <update id="selectOrUnselectProduct" parameterType="Map">
+    update neuedu_cart
+    SET checked=#{check}
+    <where>
+      <if test="productId!=null">
+        and product_id=#{productId}
+      </if>
+    </where>
+  </update>
 </mapper>

@@ -20,8 +20,13 @@ public interface ICartService {
     public ServerResponse update(Integer userId,Integer productId,Integer count);
 
     /**
-     * 更新购物车某个商品的数量
+     * 删除某些商品
      */
     public ServerResponse delete_product(Integer userId,String productIds);
+
+    /**
+     * 购物车选中/取消选中某个商品
+     */
+    public ServerResponse select(Integer userId,Integer productId,Integer check);
 
 }

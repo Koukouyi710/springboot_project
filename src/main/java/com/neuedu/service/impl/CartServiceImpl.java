@@ -141,6 +141,10 @@ public class CartServiceImpl implements ICartService{
         if (productId==null||count==null){
             return ServerResponse.createServerResponseByFail("参数不能为空！");
         }
+        Product product = productMapper.selectByPrimaryKey(productId);
+        if (product==null){
+            return ServerResponse.createServerResponseByFail("商品不存在");
+        }
         //Step2:根据参数查询信息
         Cart cart =cartMapper.selectCartByUserIdAndProductId(userId,productId);
         if (cart!=null){
@@ -168,8 +172,8 @@ public class CartServiceImpl implements ICartService{
         String[] products = productIds.split(",");
         if (products!=null&&products.length>0){
             for (String productArr:products){
-                Integer prodectId = Integer.parseInt(productArr);
-                productIdList.add(prodectId);
+                Integer productId = Integer.parseInt(productArr);
+                productIdList.add(productId);
             }
         }
         //Step3:删除
@@ -178,6 +182,26 @@ public class CartServiceImpl implements ICartService{
             return ServerResponse.createServerResponseByFail("商品不存在！");
         }
         //Step4:返回结果
+        CartVO cartVO = assembleCartVO(userId);
+        return ServerResponse.createServerResponseBySucess(cartVO);
+    }
+
+    @Override
+    public ServerResponse select(Integer userId, Integer productId,Integer check) {
+        //Step1:参数非空校验
+        if (productId==null){
+            return ServerResponse.createServerResponseByFail("参数不能为空！");
+        }
+        Product product = productMapper.selectByPrimaryKey(productId);
+        if (product==null){
+            return ServerResponse.createServerResponseByFail("商品不存在!");
+        }
+        //Step2:根据参数查询信息
+        int result = cartMapper.selectOrUnselectProduct(userId,productId,check);
+        if(result<=0){
+            return ServerResponse.createServerResponseByFail("商品不存在！");
+        }
+        //Step3:返回结果
         CartVO cartVO = assembleCartVO(userId);
         return ServerResponse.createServerResponseBySucess(cartVO);
     }

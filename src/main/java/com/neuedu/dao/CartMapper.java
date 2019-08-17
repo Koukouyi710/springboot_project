@@ -64,4 +64,14 @@ public interface CartMapper {
     int deleteByUserIdAndProductIdList(@Param("userId")Integer userId,
                                        @Param("productIdList")List<Integer> productIdList);
 
+    /**
+     * 是否选中/是否全选
+     * @param userId
+     * @param productId
+     * @param check 1:选中 0:未选中
+     */
+    int selectOrUnselectProduct(@Param("userId")Integer userId,
+                                @Param("productId")Integer productId,
+                                @Param("check")Integer check);
+
 }
