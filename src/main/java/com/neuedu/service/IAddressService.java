@@ -19,4 +19,13 @@ public interface IAddressService {
      */
     public ServerResponse update(Shipping shipping);
 
+    /**
+     * 选中查看具体的地址
+     */
+    public ServerResponse select(Integer shippingId);
+
+    /**
+     * 地址列表
+     */
+    public ServerResponse list(Integer userId,Integer pageNum,Integer pageSize);
 }

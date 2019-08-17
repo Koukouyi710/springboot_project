@@ -53,4 +53,9 @@ public interface ShippingMapper {
      */
     int deleteByUserIdAndShppingId(@Param("userId")Integer userId,
                                    @Param("shippingId")Integer shippingId);
+
+    /**
+     * 根据用户id查询该用户所有地址
+     */
+    List<Shipping> selectAllByUserId(@Param("userId")Integer userId);
 }
