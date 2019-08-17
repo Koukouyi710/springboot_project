@@ -96,4 +96,28 @@ public class CartContronller {
         }
         return cartService.select(userInfo.getId(),productId,Const.CartStatusEunm.PRODUCT_UNCHECKED.getCode());
     }
+
+    /**
+     * 购物车全选
+     */
+    @RequestMapping(value = "/select_all.do")
+    public ServerResponse select_all(HttpSession session){
+        UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
+        if (userInfo==null){
+            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
+        }
+        return cartService.select_all(userInfo.getId(),Const.CartStatusEunm.PRODUCT_CHECKED.getCode());
+    }
+
+    /**
+     * 购物车取消全选
+     */
+    @RequestMapping(value = "/un_select_all.do")
+    public ServerResponse un_select_all(HttpSession session){
+        UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
+        if (userInfo==null){
+            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
+        }
+        return cartService.select_all(userInfo.getId(),Const.CartStatusEunm.PRODUCT_UNCHECKED.getCode());
+    }
 }

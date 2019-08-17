@@ -206,4 +206,16 @@ public class CartServiceImpl implements ICartService{
         return ServerResponse.createServerResponseBySucess(cartVO);
     }
 
+    @Override
+    public ServerResponse select_all(Integer userId, Integer check) {
+
+        int result = cartMapper.selectOrUnselectProduct(userId,null,check);
+        if(result<=0){
+            return ServerResponse.createServerResponseByFail("商品不存在！");
+        }
+        //返回结果
+        CartVO cartVO = assembleCartVO(userId);
+        return ServerResponse.createServerResponseBySucess(cartVO);
+    }
+
 }

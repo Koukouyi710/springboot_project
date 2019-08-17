@@ -29,4 +29,9 @@ public interface ICartService {
      */
     public ServerResponse select(Integer userId,Integer productId,Integer check);
 
+    /**
+     * 购物车全选/取消全选某个商品
+     */
+    public ServerResponse select_all(Integer userId,Integer check);
+
 }
