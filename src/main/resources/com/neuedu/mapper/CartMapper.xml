@@ -101,4 +101,17 @@
     from neuedu_cart
     where user_id=#{userId} and checked=0
   </select>
+
+  <delete id="deleteByUserIdAndProductIdList"  parameterType="Map">
+    DELETE from neuedu_cart
+    <where>
+      user_id=#{userId}
+      <if test="productIdList!=null and productIdList.size>0">
+        and product_id IN
+        <foreach collection="productIdList" item="productId" open="(" close=")" separator=",">
+          #{productId}
+        </foreach>
+      </if>
+    </where>
+  </delete>
 </mapper>

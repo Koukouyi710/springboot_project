@@ -61,9 +61,6 @@ public class CategoryServiceImpl implements ICategoryService{
         if (category.getId()==null||category.getId().equals("")){
             return ServerResponse.createServerResponseByFail("类别id不能为空！");
         }
-        if (category.getName()==null||category.getName().equals("")){
-            return ServerResponse.createServerResponseByFail("类别名称不能为空！");
-        }
         if (category.getParentId()==null||category.getParentId().equals("")){
             category.setParentId(0);
         }

@@ -132,4 +132,54 @@ public class CartServiceImpl implements ICartService{
         //Step5:返回
         return cartVO;
     }
+
+
+    @Override
+    public ServerResponse update(Integer userId, Integer productId, Integer count) {
+
+        //Step1:参数非空校验
+        if (productId==null||count==null){
+            return ServerResponse.createServerResponseByFail("参数不能为空！");
+        }
+        //Step2:根据参数查询信息
+        Cart cart =cartMapper.selectCartByUserIdAndProductId(userId,productId);
+        if (cart!=null){
+            cart.setQuantity(count);
+            int result = cartMapper.updateByPrimaryKey(cart);
+            if (result<=0){
+                return ServerResponse.createServerResponseByFail("更新数据失败!");
+            }
+        }else{
+            return ServerResponse.createServerResponseByFail("更新数据失败!");
+        }
+        //Step3:返回结果
+        CartVO cartVO = assembleCartVO(userId);
+        return ServerResponse.createServerResponseBySucess(cartVO);
+    }
+
+    @Override
+    public ServerResponse delete_product(Integer userId, String productIds) {
+        //Step1:参数非空校验
+        if (productIds==null||productIds.equals("")){
+            return ServerResponse.createServerResponseByFail("参数不能为空！");
+        }
+        //Step2:根据参数查询信息
+       List<Integer> productIdList = Lists.newArrayList();
+        String[] products = productIds.split(",");
+        if (products!=null&&products.length>0){
+            for (String productArr:products){
+                Integer prodectId = Integer.parseInt(productArr);
+                productIdList.add(prodectId);
+            }
+        }
+        //Step3:删除
+        int result = cartMapper.deleteByUserIdAndProductIdList(userId,productIdList);
+        if (result<=0){
+            return ServerResponse.createServerResponseByFail("商品不存在！");
+        }
+        //Step4:返回结果
+        CartVO cartVO = assembleCartVO(userId);
+        return ServerResponse.createServerResponseBySucess(cartVO);
+    }
+
 }

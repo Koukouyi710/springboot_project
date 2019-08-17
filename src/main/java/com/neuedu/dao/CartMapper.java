@@ -58,4 +58,10 @@ public interface CartMapper {
      */
     Integer isCheckedAll(@Param("userId")Integer userId);
 
+    /**
+     * 删除某些商品信息
+     */
+    int deleteByUserIdAndProductIdList(@Param("userId")Integer userId,
+                                       @Param("productIdList")List<Integer> productIdList);
+
 }
