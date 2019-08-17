@@ -74,4 +74,8 @@ public interface CartMapper {
                                 @Param("productId")Integer productId,
                                 @Param("check")Integer check);
 
+    /**
+     * 查询在购物车里的产品数量
+     */
+    int getCartProductCount(@Param("userId")Integer userId);
 }

@@ -218,4 +218,10 @@ public class CartServiceImpl implements ICartService{
         return ServerResponse.createServerResponseBySucess(cartVO);
     }
 
+    @Override
+    public ServerResponse get_cart_product_count(Integer userId) {
+        int count = cartMapper.getCartProductCount(userId);
+        return ServerResponse.createServerResponseBySucess(count);
+    }
+
 }

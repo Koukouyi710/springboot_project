@@ -125,4 +125,10 @@
       </if>
     </where>
   </update>
+
+  <select id="getCartProductCount" parameterType="int" resultType="int">
+    select ifnull(sum(quantity),0)
+    from neuedu_cart
+    where user_id=#{userId}
+  </select>
 </mapper>

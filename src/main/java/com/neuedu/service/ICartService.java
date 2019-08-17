@@ -34,4 +34,9 @@ public interface ICartService {
      */
     public ServerResponse select_all(Integer userId,Integer check);
 
+    /**
+     * 查询在购物车里的产品数量
+     */
+    public ServerResponse get_cart_product_count(Integer userId);
+
 }

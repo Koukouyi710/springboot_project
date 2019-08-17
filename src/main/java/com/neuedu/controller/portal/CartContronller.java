@@ -120,4 +120,16 @@ public class CartContronller {
         }
         return cartService.select_all(userInfo.getId(),Const.CartStatusEunm.PRODUCT_UNCHECKED.getCode());
     }
+
+    /**
+     * 查询在购物车里的产品数量
+     */
+    @RequestMapping(value = "/get_cart_product_count.do")
+    public ServerResponse get_cart_product_count(HttpSession session){
+        UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
+        if (userInfo==null){
+            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
+        }
+        return cartService.get_cart_product_count(userInfo.getId());
+    }
 }
