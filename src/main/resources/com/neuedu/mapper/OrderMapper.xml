@@ -139,7 +139,13 @@
     select id, user_id, order_no, shipping_id, payment, payment_type, postage, status,
     payment_time, send_time, end_time, close_time, create_time, update_time
     from neuedu_order
-    where user_id=#{userId}
-    and order_no=#{orderNO}
+    <where>
+      <if test="userId!=null and userId!=''">
+        and user_id=#{userId}
+      </if>
+      <if test="orderNO!=null and orderNO!=''">
+        and order_no=#{orderNO}
+      </if>
+    </where>
   </select>
 </mapper>

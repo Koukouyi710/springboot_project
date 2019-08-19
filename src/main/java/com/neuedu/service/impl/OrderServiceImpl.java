@@ -271,7 +271,12 @@ public class OrderServiceImpl implements IOrderService{
     @Override
     public ServerResponse list(Integer userId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum,pageSize);
-        List<Order>orderList = orderMapper.findOrderListByUserId(userId);
+        List<Order>orderList = Lists.newArrayList();
+        if (userId==null){//管理员
+            orderList = orderMapper.selectAll();
+        }else{
+            orderList = orderMapper.findOrderListByUserId(userId);
+        }
         if (orderList==null||orderList.size()==0){
             return ServerResponse.createServerResponseByFail("未查询到订单信息！");
         }

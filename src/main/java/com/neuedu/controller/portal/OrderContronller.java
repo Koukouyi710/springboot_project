@@ -31,7 +31,7 @@ public class OrderContronller {
         return orderService.create(userInfo.getId(),shippingId);
     }
     /**
-     *获取订单的商品信息
+     *获取购物车的订单明细
      */
     @RequestMapping(value = "/get_order_cart_product.do")
     public ServerResponse get_order_cart_product(HttpSession session){
