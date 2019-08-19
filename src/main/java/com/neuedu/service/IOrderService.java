@@ -29,4 +29,16 @@ public interface IOrderService {
      *取消订单
      */
     public ServerResponse cancel(Integer userId,Long orderNo);
+
+    /**
+     *按订单号搜索
+     */
+    public ServerResponse search(Integer userId,Long orderNo,Integer pageNum,Integer pageSize);
+
+    /**
+     *订单发货
+     */
+    public ServerResponse send_goods(Integer userId,Long orderNo);
+
+
 }

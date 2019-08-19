@@ -36,4 +36,57 @@ public class OrderManageContronller {
 
         return orderService.list(null,pageNum,pageSize);
     }
+
+    /**
+     * 按订单号查询
+     */
+    @RequestMapping(value = "/search.do")
+    public ServerResponse search(HttpSession session,Long orderNo,
+                                 @RequestParam(name = "pageNum",required = false,defaultValue = "1")Integer pageNum,
+                                 @RequestParam(name = "pageSize",required = false,defaultValue = "10")Integer pageSize){
+        UserInfo userInfo = (UserInfo)session.getAttribute(Const.CURRENT_USER);
+        if (userInfo==null){
+            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
+        }
+        //判断用户权限
+        if (userInfo.getRole()!=Const.RoleEnum.ROLE_ADMIN.getCode()){
+            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NO_PRIVILEGE.getCode(),Const.ResponseCodeEunm.NO_PRIVILEGE.getDesc());
+        }
+
+        return orderService.search(null,orderNo,pageNum,pageSize);
+    }
+
+    /**
+     * 订单详情
+     */
+    @RequestMapping(value = "/detail.do")
+    public ServerResponse detail(HttpSession session,Long orderNo){
+        UserInfo userInfo = (UserInfo)session.getAttribute(Const.CURRENT_USER);
+        if (userInfo==null){
+            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
+        }
+        //判断用户权限
+        if (userInfo.getRole()!=Const.RoleEnum.ROLE_ADMIN.getCode()){
+            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NO_PRIVILEGE.getCode(),Const.ResponseCodeEunm.NO_PRIVILEGE.getDesc());
+        }
+
+        return orderService.detail(null,orderNo);
+    }
+
+    /**
+     * 订单发货
+     */
+    @RequestMapping(value = "/send_goods.do")
+    public ServerResponse send_goods(HttpSession session,Long orderNo){
+        UserInfo userInfo = (UserInfo)session.getAttribute(Const.CURRENT_USER);
+        if (userInfo==null){
+            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
+        }
+        //判断用户权限
+        if (userInfo.getRole()!=Const.RoleEnum.ROLE_ADMIN.getCode()){
+            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NO_PRIVILEGE.getCode(),Const.ResponseCodeEunm.NO_PRIVILEGE.getDesc());
+        }
+
+        return orderService.send_goods(null,orderNo);
+    }
 }

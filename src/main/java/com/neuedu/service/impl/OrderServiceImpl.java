@@ -333,4 +333,52 @@ public class OrderServiceImpl implements IOrderService{
         }
         return ServerResponse.createServerResponseByFail("订单取消失败!");
     }
+
+    @Override
+    public ServerResponse search(Integer userId, Long orderNo,Integer pageNum,Integer pageSize) {
+        String orderNOstr = "%"+orderNo+"%";
+        if (orderNo==null||orderNo.equals("")){
+            return ServerResponse.createServerResponseByFail("查询的订单号不能为空！");
+        }
+        PageHelper.startPage(pageNum,pageSize);
+        List<Order> orderList = orderMapper.findOrderListByOrderNO(orderNOstr);
+        if (orderList==null||orderList.size()==0){
+            return ServerResponse.createServerResponseByFail("未查询到订单信息！");
+        }
+        List<OrderVO>orderVOList = Lists.newArrayList();
+        for (Order order:orderList){
+            List<OrderItem>orderItemList = orderItemMapper.findOrderItemListByOrderNO("%"+order.getOrderNo()+"%");
+            /*if (orderItemList==null||orderItemList.size()==0){
+                return ServerResponse.createServerResponseByFail("未查询到订单信息！");
+            }*/
+            OrderVO orderVO = assembleOrderVO(order,orderItemList,order.getShippingId());
+            orderVOList.add(orderVO);
+        }
+        PageInfo pageInfo = new PageInfo(orderList);
+        pageInfo.setList(orderVOList);
+        return ServerResponse.createServerResponseBySucess(pageInfo);
+    }
+
+    @Override
+    public ServerResponse send_goods(Integer userId, Long orderNo) {
+        if (orderNo==null||orderNo.equals("")){
+            return ServerResponse.createServerResponseByFail("查询的订单号不能为空！");
+        }
+        Order order = orderMapper.findOrderListByUserIdAndOrderNO(userId,orderNo);
+        if (order==null){
+            return ServerResponse.createServerResponseByFail("未查询到订单信息！");
+        }
+        if (order.getStatus()==Const.OrderStatusEunm.ORDER_SEND.getCode()){
+            return ServerResponse.createServerResponseByFail("该订单已发货！");
+        }
+        if (order.getStatus()!=Const.OrderStatusEunm.ORDER_PAYED.getCode()){
+            return ServerResponse.createServerResponseByFail("该订单不可发货！");
+        }
+        order.setStatus(Const.OrderStatusEunm.ORDER_SEND.getCode());
+        int result = orderMapper.updateSend(order);
+        if (result>0){
+            return ServerResponse.createServerResponseBySucess("发货成功!");
+        }
+        return ServerResponse.createServerResponseByFail("发货失败!");
+    }
 }

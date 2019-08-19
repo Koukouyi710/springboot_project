@@ -57,4 +57,14 @@ public interface OrderMapper {
      * 按照userid和订单号查找
      */
     Order findOrderListByUserIdAndOrderNO(@Param("userId")Integer userId,@Param("orderNO")Long orderNO);
+
+    /**
+     * 按照订单号模糊查找
+     */
+    List<Order>findOrderListByOrderNO(@Param("orderNO")String orderNO);
+
+    /**
+     * 更新发货时间
+     */
+    int updateSend(@Param("order")Order record);
 }

@@ -144,4 +144,15 @@
       </if>
     </where>
   </select>
+
+  <select id="findOrderItemListByOrderNO" resultMap="BaseResultMap" parameterType="string" >
+    select id, user_id, order_no, product_id, product_name, product_image, current_unit_price,
+    quantity, total_price, create_time, update_time
+    from neuedu_order_item
+    <where>
+      <if test="orderNO!=null and orderNO!=''">
+        and order_no like #{orderNO}
+      </if>
+    </where>
+  </select>
 </mapper>
