@@ -95,6 +95,18 @@ public class OrderContronller {
     }
 
     /**
+     *查询订单支付状态
+     */
+    @RequestMapping(value = "/query_order_pay_status.do")
+    public ServerResponse query_order_pay_status(HttpSession session,Long orderNo){
+        UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
+        if (userInfo==null){
+            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
+        }
+        return orderService.query_order_pay_status(userInfo.getId(),orderNo);
+    }
+
+    /**
      * 支付宝服务器回调接口
      */
     @RequestMapping(value = "/alipay_callback.do")

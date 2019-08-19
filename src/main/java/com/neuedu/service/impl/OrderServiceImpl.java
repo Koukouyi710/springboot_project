@@ -413,6 +413,26 @@ public class OrderServiceImpl implements IOrderService{
     }
 
     @Override
+    public ServerResponse query_order_pay_status(Integer userId, Long orderNo) {
+        if (orderNo==null||orderNo.equals("")){
+            return ServerResponse.createServerResponseByFail("查询的订单号不能为空！");
+        }
+        Order order = orderMapper.findOrderListByUserIdAndOrderNO(userId,orderNo);
+        if (order==null){
+            return ServerResponse.createServerResponseByFail("未查询到订单信息！");
+        }
+        if (order.getStatus()==Const.OrderStatusEunm.ORDER_PAYED.getCode()
+                ||order.getStatus()==Const.OrderStatusEunm.ORDER_SEND.getCode()
+                ||order.getStatus()==Const.OrderStatusEunm.ORDER_SUCCESS.getCode()){
+            return ServerResponse.createServerResponseBySucess(true);
+        }
+        if (order.getStatus()==Const.OrderStatusEunm.ORDER_UNPAY.getCode()){
+            return ServerResponse.createServerResponseBySucess(false);
+        }
+        return ServerResponse.createServerResponseByFail("订单已取消或交易已关闭！");
+    }
+
+    @Override
     public ServerResponse pay(Integer userId, Long orderNo) {
 
         if (orderNo==null||orderNo.equals("")){
