@@ -47,4 +47,9 @@ public interface OrderMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(@Param("order")Order record);
+
+    /**
+     * 按照userid查找
+     */
+    List<Order>findOrderListByUserId(@Param("userId")Integer userId);
 }

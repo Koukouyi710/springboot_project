@@ -130,4 +130,12 @@
       now())
     </foreach>
   </insert>
+
+  <select id="findOrderItemListByUserIdAndOrderNO" resultMap="BaseResultMap" parameterType="Map" >
+    select id, user_id, order_no, product_id, product_name, product_image, current_unit_price,
+    quantity, total_price, create_time, update_time
+    from neuedu_order_item
+    where user_id=#{userId}
+    and order_no=#{orderNO}
+  </select>
 </mapper>

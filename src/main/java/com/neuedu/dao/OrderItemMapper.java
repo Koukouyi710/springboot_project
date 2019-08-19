@@ -52,4 +52,9 @@ public interface OrderItemMapper {
      * 订单明细批量插入
      */
     int insertBatch(@Param("orderItemList")List<OrderItem> orderItemList);
+
+    /**
+     * 按照userid和订单号查找
+     */
+    List<OrderItem>findOrderItemListByUserIdAndOrderNO(@Param("userId")Integer userId,@Param("orderNO")Long orderNO);
 }

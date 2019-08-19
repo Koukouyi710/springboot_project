@@ -1,5 +1,7 @@
 package com.neuedu.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.neuedu.common.Const;
 import com.neuedu.common.ServerResponse;
@@ -9,6 +11,7 @@ import com.neuedu.service.IOrderService;
 import com.neuedu.utils.BigDecinalUtils;
 import com.neuedu.utils.DateUtils;
 import com.neuedu.utils.PropertiesUtils;
+import com.neuedu.vo.OrderCartProductVO;
 import com.neuedu.vo.OrderItemVO;
 import com.neuedu.vo.OrderVO;
 import com.neuedu.vo.ShippingVO;
@@ -59,7 +62,6 @@ public class OrderServiceImpl implements IOrderService{
             return ServerResponse.createServerResponseByFail("购物车为空！");
         }
         orderTotalPrice = getOrderPrice(orderItemList);
-        System.out.println(orderTotalPrice);
         Order order = createOrder(userId,shippingId,orderTotalPrice);
         if (order==null){
             return ServerResponse.createServerResponseByFail("订单创建失败");
@@ -233,5 +235,58 @@ public class OrderServiceImpl implements IOrderService{
             orderItemList.add(orderItem);
         }
         return ServerResponse.createServerResponseBySucess(orderItemList);
+    }
+
+    @Override
+    public ServerResponse get_order_cart_product(Integer userId) {
+
+        OrderCartProductVO orderCartProductVO = new OrderCartProductVO();
+        //step1:查询购物车已选中商品
+        List<Cart> cartList = cartMapper.findCartListByUserIdAndChecked(userId);
+        //step2:购物车到订单
+        ServerResponse serverResponse = getCartOrderItem(userId,cartList);
+        if (!serverResponse.isSucess()){
+            return serverResponse;
+        }
+        //计算订单价格
+        BigDecimal orderTotalPrice = new BigDecimal("0");
+        List<OrderItem> orderItemList = (List<OrderItem>)serverResponse.getData();
+        if (orderItemList==null||orderItemList.size()==0){
+            return ServerResponse.createServerResponseByFail("购物车为空！");
+        }
+        orderTotalPrice = getOrderPrice(orderItemList);
+        orderCartProductVO.setProductTotalPrice(orderTotalPrice);
+        orderCartProductVO.setImageHost(PropertiesUtils.readByKey("imageHost"));
+
+        List<OrderItemVO> orderItemVOList = Lists.newArrayList();
+        for (OrderItem orderItem:orderItemList){
+            OrderItemVO orderItemVO = assembleOrderItemVO(orderItem);
+            orderItemVOList.add(orderItemVO);
+        }
+        orderCartProductVO.setOrderItemVoList(orderItemVOList);
+
+        return ServerResponse.createServerResponseBySucess(orderCartProductVO);
+    }
+
+    @Override
+    public ServerResponse list(Integer userId, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<Order>orderList = orderMapper.findOrderListByUserId(userId);
+        if (orderList==null||orderList.size()==0){
+            return ServerResponse.createServerResponseByFail("未查询到订单信息！");
+        }
+        List<OrderVO>orderVOList = Lists.newArrayList();
+        for (Order order:orderList){
+            List<OrderItem>orderItemList = orderItemMapper.findOrderItemListByUserIdAndOrderNO(userId,order.getOrderNo());
+            if (orderItemList==null||orderItemList.size()==0){
+                return ServerResponse.createServerResponseByFail("未查询到订单信息！");
+            }
+            OrderVO orderVO = assembleOrderVO(order,orderItemList,order.getShippingId());
+            orderVOList.add(orderVO);
+        }
+        //返回结果
+        PageInfo pageInfo = new PageInfo(orderList);
+        pageInfo.setList(orderVOList);
+        return ServerResponse.createServerResponseBySucess(pageInfo);
     }
 }
