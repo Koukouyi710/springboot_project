@@ -15,6 +15,7 @@ import com.neuedu.pojo.Product;
 import com.neuedu.service.ICategoryService;
 import com.neuedu.service.IProductService;
 import com.neuedu.utils.DateUtils;
+import com.neuedu.utils.FTPUtil;
 import com.neuedu.utils.PropertiesUtils;
 import com.neuedu.vo.ProductCategoryVO;
 import com.neuedu.vo.ProductDetailVO;
@@ -212,9 +213,16 @@ public class ProductServiceImpl implements IProductService{
         File file1 = new File(path,newFileName);
         try {
             file.transferTo(file1);
+            //上传图片服务器
+            FTPUtil.uploadFile(Lists.newArrayList(file1));
+            //...
             Map<String,String> map = Maps.newHashMap();
             map.put("uri",newFileName);
             map.put("url",PropertiesUtils.readByKey("imageHost")+newFileName);
+
+            //删除应用服务器上的图片
+            file1.delete();
+
             return ServerResponse.createServerResponseBySucess(map);
         } catch (IOException e) {
             e.printStackTrace();

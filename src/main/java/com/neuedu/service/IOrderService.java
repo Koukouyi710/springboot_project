@@ -40,5 +40,9 @@ public interface IOrderService {
      */
     public ServerResponse send_goods(Integer userId,Long orderNo);
 
+    /**
+     *支付
+     */
+    public ServerResponse pay(Integer userId,Long orderNo);
 
 }
