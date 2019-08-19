@@ -136,7 +136,7 @@
     quantity, total_price, create_time, update_time
     from neuedu_order_item
     <where>
-      <if test="userId!=null and userId!=''">
+      <if test="userId!=null">
         and user_id=#{userId}
       </if>
       <if test="orderNO!=null and orderNO!=''">

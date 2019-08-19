@@ -276,6 +276,7 @@ public class OrderServiceImpl implements IOrderService{
             orderList = orderMapper.selectAll();
         }else{
             orderList = orderMapper.findOrderListByUserId(userId);
+
         }
         if (orderList==null||orderList.size()==0){
             return ServerResponse.createServerResponseByFail("未查询到订单信息！");
@@ -283,9 +284,9 @@ public class OrderServiceImpl implements IOrderService{
         List<OrderVO>orderVOList = Lists.newArrayList();
         for (Order order:orderList){
             List<OrderItem>orderItemList = orderItemMapper.findOrderItemListByUserIdAndOrderNO(userId,order.getOrderNo());
-            if (orderItemList==null||orderItemList.size()==0){
+            /*if (orderItemList==null||orderItemList.size()==0){
                 return ServerResponse.createServerResponseByFail("未查询到订单信息！");
-            }
+            }*/
             OrderVO orderVO = assembleOrderVO(order,orderItemList,order.getShippingId());
             orderVOList.add(orderVO);
         }
