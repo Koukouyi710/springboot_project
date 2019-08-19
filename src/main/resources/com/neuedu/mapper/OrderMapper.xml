@@ -85,7 +85,7 @@
         postage = #{order.postage,jdbcType=INTEGER},
       </if>
 
-      <if test="order.status!=null and order.status!=''">
+      <if test="order.status!=null">
         status = #{order.status,jdbcType=INTEGER},
       </if>
 

@@ -24,4 +24,9 @@ public interface IOrderService {
      */
     public ServerResponse detail(Integer userId,Long orderNo);
 
+
+    /**
+     *取消订单
+     */
+    public ServerResponse cancel(Integer userId,Long orderNo);
 }

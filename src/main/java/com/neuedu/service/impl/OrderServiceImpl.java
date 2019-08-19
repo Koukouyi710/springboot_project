@@ -307,4 +307,24 @@ public class OrderServiceImpl implements IOrderService{
         //返回结果
         return ServerResponse.createServerResponseBySucess(orderVO);
     }
+
+    @Override
+    public ServerResponse cancel(Integer userId, Long orderNo) {
+        if (orderNo==null||orderNo.equals("")){
+            return ServerResponse.createServerResponseByFail("查询的订单号不能为空！");
+        }
+        Order order = orderMapper.findOrderListByUserIdAndOrderNO(userId,orderNo);
+        if (order==null){
+            return ServerResponse.createServerResponseByFail("未查询到订单信息！");
+        }
+        if (order.getStatus()!=Const.OrderStatusEunm.ORDER_UNPAY.getCode()){
+            return ServerResponse.createServerResponseByFail("订单不可取消！");
+        }
+        order.setStatus(Const.OrderStatusEunm.ORDER_CANCELED.getCode());
+        int result = orderMapper.updateByPrimaryKey(order);
+        if (result>0){
+            return ServerResponse.createServerResponseBySucess("订单取消成功!");
+        }
+        return ServerResponse.createServerResponseByFail("订单取消失败!");
+    }
 }

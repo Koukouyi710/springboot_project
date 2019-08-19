@@ -68,4 +68,16 @@ public class OrderContronller {
         }
         return orderService.detail(userInfo.getId(),orderNo);
     }
+
+    /**
+     *取消订单
+     */
+    @RequestMapping(value = "/cancel.do")
+    public ServerResponse cancel(HttpSession session,Long orderNo){
+        UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
+        if (userInfo==null){
+            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
+        }
+        return orderService.cancel(userInfo.getId(),orderNo);
+    }
 }
