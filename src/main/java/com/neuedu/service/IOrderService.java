@@ -19,4 +19,9 @@ public interface IOrderService {
      */
     public ServerResponse list(Integer userId,Integer pageNum,Integer pageSize);
 
+    /**
+     *订单详情
+     */
+    public ServerResponse detail(Integer userId,Long orderNo);
+
 }

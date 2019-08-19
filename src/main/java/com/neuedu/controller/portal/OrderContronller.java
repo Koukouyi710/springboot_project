@@ -56,4 +56,16 @@ public class OrderContronller {
         }
         return orderService.list(userInfo.getId(),pageNum,pageSize);
     }
+
+    /**
+     *订单详情
+     */
+    @RequestMapping(value = "/detail.do")
+    public ServerResponse detail(HttpSession session,Long orderNo){
+        UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
+        if (userInfo==null){
+            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
+        }
+        return orderService.detail(userInfo.getId(),orderNo);
+    }
 }

@@ -289,4 +289,22 @@ public class OrderServiceImpl implements IOrderService{
         pageInfo.setList(orderVOList);
         return ServerResponse.createServerResponseBySucess(pageInfo);
     }
+
+    @Override
+    public ServerResponse detail(Integer userId, Long orderNo) {
+        if (orderNo==null||orderNo.equals("")){
+            return ServerResponse.createServerResponseByFail("查询的订单号不能为空！");
+        }
+        Order order = orderMapper.findOrderListByUserIdAndOrderNO(userId,orderNo);
+        if (order==null){
+            return ServerResponse.createServerResponseByFail("未查询到订单信息！");
+        }
+        List<OrderItem>orderItemList = orderItemMapper.findOrderItemListByUserIdAndOrderNO(userId,orderNo);
+        if (orderItemList==null||orderItemList.size()==0){
+            return ServerResponse.createServerResponseByFail("未查询到订单信息！");
+        }
+        OrderVO orderVO = assembleOrderVO(order,orderItemList,order.getShippingId());
+        //返回结果
+        return ServerResponse.createServerResponseBySucess(orderVO);
+    }
 }

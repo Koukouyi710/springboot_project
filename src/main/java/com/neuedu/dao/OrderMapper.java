@@ -52,4 +52,9 @@ public interface OrderMapper {
      * 按照userid查找
      */
     List<Order>findOrderListByUserId(@Param("userId")Integer userId);
+
+    /**
+     * 按照userid和订单号查找
+     */
+    Order findOrderListByUserIdAndOrderNO(@Param("userId")Integer userId,@Param("orderNO")Long orderNO);
 }

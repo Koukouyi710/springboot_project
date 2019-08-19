@@ -134,4 +134,12 @@
     from neuedu_order
     where user_id=#{userId}
   </select>
+
+  <select id="findOrderListByUserIdAndOrderNO" resultMap="BaseResultMap" parameterType="Map">
+    select id, user_id, order_no, shipping_id, payment, payment_type, postage, status,
+    payment_time, send_time, end_time, close_time, create_time, update_time
+    from neuedu_order
+    where user_id=#{userId}
+    and order_no=#{orderNO}
+  </select>
 </mapper>
