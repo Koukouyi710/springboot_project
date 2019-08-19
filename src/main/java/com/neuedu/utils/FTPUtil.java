@@ -41,7 +41,7 @@ public class FTPUtil {
         //连接ftp服务器
         if (connectFTPServer(ftpIp,ftpUser,ftpPass)){
             try {
-                ftpClient.changeWorkingDirectory(remotePath);
+                //ftpClient.changeWorkingDirectory(remotePath);
                 ftpClient.setBufferSize(1024);
                 ftpClient.setControlEncoding("UTF-8");
                 ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
@@ -50,6 +50,7 @@ public class FTPUtil {
                     fileInputStream = new FileInputStream(file);
                     ftpClient.storeFile(file.getName(),fileInputStream);
                 }
+                System.out.println("文件上传成功...");
                 return true;
             } catch (IOException e) {
                 e.printStackTrace();
