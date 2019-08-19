@@ -452,6 +452,12 @@ public class OrderServiceImpl implements IOrderService{
 
         return ServerResponse.createServerResponseByFail("");
     }
+
+    @Override
+    public ServerResponse alipay_callback(Map<String, String> map) {
+        return null;
+    }
+
     ///////////////////////////支付相关///////////////////////////////////
     private static Log log = LogFactory.getLog(Main.class);
 
