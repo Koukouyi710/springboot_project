@@ -446,6 +446,13 @@ public class OrderServiceImpl implements IOrderService{
         if (order==null){
             return ServerResponse.createServerResponseByFail("订单不存在！");
         }
+        if (order.getStatus()==Const.OrderStatusEunm.ORDER_CANCELED.getCode()||
+                order.getStatus()==Const.OrderStatusEunm.ORDER_CLOSED.getCode()){
+            return ServerResponse.createServerResponseByFail("订单已取消或交易已关闭！");
+        }
+        if (order.getStatus()!=Const.OrderStatusEunm.ORDER_UNPAY.getCode()){
+            return ServerResponse.createServerResponseByFail("订单已支付！");
+        }
         try {
             ServerResponse serverResponse = pay(order);
             return serverResponse;
@@ -492,6 +499,16 @@ public class OrderServiceImpl implements IOrderService{
         payInfo.setPlatformStatus(tradeStatus);
         payInfo.setPlatformNumber(tradeNo);
         payInfo.setUserId(order.getUserId());
+        PayInfo payInfo_res = payInfoMapper.selectByOrderNO(orderNo);
+        if(payInfo_res!=null){
+            payInfo.setId(payInfo_res.getId());
+            int result = payInfoMapper.updateByPrimaryKey(payInfo);
+            if (result>0){
+                System.out.println("支付信息保存成功！");
+                return ServerResponse.createServerResponseBySucess();
+            }
+            return ServerResponse.createServerResponseByFail("支付信息保存失败！");
+        }
         int result = payInfoMapper.insert(payInfo);
         if (result>0){
             System.out.println("支付信息保存成功！");

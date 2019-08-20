@@ -47,4 +47,6 @@ public interface PayInfoMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(@Param("payInfo")PayInfo record);
+
+    PayInfo selectByOrderNO(@Param("orderNo")Long orderNo);
 }

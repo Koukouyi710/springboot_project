@@ -1,5 +1,7 @@
 
 spring:
+  thymeleaf:
+    mode: HTML5
   profiles:
    active: dev
   http:
@@ -10,3 +12,7 @@ spring:
 server:
   tomcat:
     uri-encoding: UTF-8
+
+img:
+  local:
+    path: D:\\upload
