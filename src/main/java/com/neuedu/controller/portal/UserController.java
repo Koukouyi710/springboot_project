@@ -106,9 +106,7 @@ public class UserController {
     @RequestMapping(value = "get_user_info.do")
     public ServerResponse get_user_info(HttpSession session){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail("用户未登录");
-        }
+
         UserInfoVO userInfoVO = assembleUserInfoVO(userInfo);
         return ServerResponse.createServerResponseBySucess(userInfoVO);
     }
@@ -131,9 +129,7 @@ public class UserController {
     @RequestMapping(value = "reset_password.do")
     public ServerResponse reset_password(HttpSession session,String passwordOld,String passwordNew){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail("用户未登录");
-        }
+
         return userService.reset_password(userInfo,passwordOld,passwordNew);
     }
 
@@ -143,9 +139,7 @@ public class UserController {
     @RequestMapping(value = "update_information.do")
     public ServerResponse update_information(HttpSession session,UserInfo user){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail("用户未登录");
-        }
+
         user.setId(userInfo.getId());
         return userService.update_information(user);
     }
@@ -156,9 +150,7 @@ public class UserController {
     @RequestMapping(value = "get_inforamtion.do")
     public ServerResponse get_inforamtion(HttpSession session){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail("用户未登录");
-        }
+
         UserDetailVO userDetailVO = assembleUserDetailVO(userInfo);
         return ServerResponse.createServerResponseBySucess(userDetailVO);
     }
@@ -178,7 +170,7 @@ public class UserController {
     }
 
     /**
-     *获取详细信息
+     *登出
      */
     @RequestMapping(value = "logout.do")
     public ServerResponse logout(HttpSession session, HttpServletResponse response, HttpServletRequest request){

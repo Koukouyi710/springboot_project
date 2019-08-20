@@ -56,15 +56,6 @@ public class UserManageController {
     public ServerResponse list(HttpSession session,
                                @RequestParam(name = "pageNum",required = false,defaultValue = "1")Integer pageNum,
                                @RequestParam(name = "pageSize",required = false,defaultValue = "10")Integer pageSize){
-        UserInfo userInfo = (UserInfo)session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
-        //判断用户权限
-        if (userInfo.getRole()!=Const.RoleEnum.ROLE_ADMIN.getCode()){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NO_PRIVILEGE.getCode(),Const.ResponseCodeEunm.NO_PRIVILEGE.getDesc());
-        }
-
         return userService.list(pageSize, pageNum);
     }
 }

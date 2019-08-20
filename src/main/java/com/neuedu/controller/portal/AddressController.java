@@ -25,9 +25,7 @@ public class AddressController {
     @RequestMapping(value = "/add.do")
     public ServerResponse add(HttpSession session, Shipping shipping){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         return addressService.add(userInfo.getId(),shipping);
     }
 
@@ -37,9 +35,7 @@ public class AddressController {
     @RequestMapping(value = "/del.do")
     public ServerResponse del(HttpSession session, Integer shippingId){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         return addressService.del(userInfo.getId(),shippingId);
     }
 
@@ -49,9 +45,7 @@ public class AddressController {
     @RequestMapping(value = "/update.do")
     public ServerResponse update(HttpSession session,  Shipping shipping){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         shipping.setUserId(userInfo.getId());
         return addressService.update(shipping);
     }
@@ -62,9 +56,7 @@ public class AddressController {
     @RequestMapping(value = "/select.do")
     public ServerResponse select(HttpSession session,Integer shippingId){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         return addressService.select(shippingId);
     }
 
@@ -76,9 +68,7 @@ public class AddressController {
                                @RequestParam(name = "pageNum",required = false,defaultValue = "1")Integer pageNum,
                                @RequestParam(name = "pageSize",required = false,defaultValue = "10")Integer pageSize){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         return addressService.list(userInfo.getId(),pageNum,pageSize);
     }
 }

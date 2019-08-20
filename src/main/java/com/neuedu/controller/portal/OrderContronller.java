@@ -34,9 +34,7 @@ public class OrderContronller {
     @RequestMapping(value = "/create.do")
     public ServerResponse create(HttpSession session,Integer shippingId){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         return orderService.create(userInfo.getId(),shippingId);
     }
     /**
@@ -45,9 +43,7 @@ public class OrderContronller {
     @RequestMapping(value = "/get_order_cart_product.do")
     public ServerResponse get_order_cart_product(HttpSession session){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         return orderService.get_order_cart_product(userInfo.getId());
     }
 
@@ -60,9 +56,7 @@ public class OrderContronller {
                                @RequestParam(name = "pageSize",required = false,defaultValue = "10")Integer pageSize
     ){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         return orderService.list(userInfo.getId(),pageNum,pageSize);
     }
 
@@ -72,9 +66,7 @@ public class OrderContronller {
     @RequestMapping(value = "/detail.do")
     public ServerResponse detail(HttpSession session,Long orderNo){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         return orderService.detail(userInfo.getId(),orderNo);
     }
 
@@ -84,9 +76,7 @@ public class OrderContronller {
     @RequestMapping(value = "/cancel.do")
     public ServerResponse cancel(HttpSession session,Long orderNo){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         return orderService.cancel(userInfo.getId(),orderNo);
     }
 
@@ -96,9 +86,7 @@ public class OrderContronller {
     @RequestMapping(value = "/pay.do")
     public ServerResponse pay(HttpSession session,Long orderNo){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         return orderService.pay(userInfo.getId(),orderNo);
     }
 
@@ -108,9 +96,7 @@ public class OrderContronller {
     @RequestMapping(value = "/query_order_pay_status.do")
     public ServerResponse query_order_pay_status(HttpSession session,Long orderNo){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         return orderService.query_order_pay_status(userInfo.getId(),orderNo);
     }
 

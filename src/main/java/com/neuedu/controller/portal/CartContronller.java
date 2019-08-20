@@ -24,9 +24,7 @@ public class CartContronller {
     @RequestMapping(value = "/list.do")
     public ServerResponse list(HttpSession session){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         return cartService.list(userInfo.getId());
     }
 
@@ -38,9 +36,7 @@ public class CartContronller {
                               Integer productId,
                               Integer count){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         return cartService.add(userInfo.getId(),productId,count);
     }
 
@@ -52,9 +48,7 @@ public class CartContronller {
                               Integer productId,
                               Integer count){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         return cartService.update(userInfo.getId(),productId,count);
     }
 
@@ -65,9 +59,7 @@ public class CartContronller {
     public ServerResponse delete_product(HttpSession session,
                                  String productIds){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         return cartService.delete_product(userInfo.getId(),productIds);
     }
 
@@ -78,9 +70,7 @@ public class CartContronller {
     public ServerResponse select(HttpSession session,
                                          Integer productId){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         return cartService.select(userInfo.getId(),productId,Const.CartStatusEunm.PRODUCT_CHECKED.getCode());
     }
 
@@ -91,9 +81,7 @@ public class CartContronller {
     public ServerResponse un_select(HttpSession session,
                                  Integer productId){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         return cartService.select(userInfo.getId(),productId,Const.CartStatusEunm.PRODUCT_UNCHECKED.getCode());
     }
 
@@ -103,9 +91,7 @@ public class CartContronller {
     @RequestMapping(value = "/select_all.do")
     public ServerResponse select_all(HttpSession session){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         return cartService.select_all(userInfo.getId(),Const.CartStatusEunm.PRODUCT_CHECKED.getCode());
     }
 
@@ -115,9 +101,7 @@ public class CartContronller {
     @RequestMapping(value = "/un_select_all.do")
     public ServerResponse un_select_all(HttpSession session){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         return cartService.select_all(userInfo.getId(),Const.CartStatusEunm.PRODUCT_UNCHECKED.getCode());
     }
 
@@ -127,9 +111,7 @@ public class CartContronller {
     @RequestMapping(value = "/get_cart_product_count.do")
     public ServerResponse get_cart_product_count(HttpSession session){
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
+
         return cartService.get_cart_product_count(userInfo.getId());
     }
 }

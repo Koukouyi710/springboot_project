@@ -24,14 +24,7 @@ public class ProductManageController {
      */
     @RequestMapping(value = "/save.do")
     public ServerResponse save(HttpSession session, Product product){
-        UserInfo userInfo = (UserInfo)session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
-        //判断用户权限
-        if (userInfo.getRole()!=Const.RoleEnum.ROLE_ADMIN.getCode()){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NO_PRIVILEGE.getCode(),Const.ResponseCodeEunm.NO_PRIVILEGE.getDesc());
-        }
+
         return productService.save(product);
     }
 
@@ -40,14 +33,7 @@ public class ProductManageController {
      */
     @RequestMapping(value = "/set_sale_status.do")
     public ServerResponse set_sale_status(HttpSession session,Integer productId,Integer status){
-        UserInfo userInfo = (UserInfo)session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
-        //判断用户权限
-        if (userInfo.getRole()!=Const.RoleEnum.ROLE_ADMIN.getCode()){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NO_PRIVILEGE.getCode(),Const.ResponseCodeEunm.NO_PRIVILEGE.getDesc());
-        }
+
         return productService.set_sale_status(productId,status);
     }
 
@@ -56,14 +42,7 @@ public class ProductManageController {
      */
     @RequestMapping(value = "/detail.do")
     public ServerResponse detail(HttpSession session,Integer productId){
-        UserInfo userInfo = (UserInfo)session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
-        //判断用户权限
-        if (userInfo.getRole()!=Const.RoleEnum.ROLE_ADMIN.getCode()){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NO_PRIVILEGE.getCode(),Const.ResponseCodeEunm.NO_PRIVILEGE.getDesc());
-        }
+
         return productService.detail(productId);
     }
 
@@ -74,14 +53,7 @@ public class ProductManageController {
     public ServerResponse list(HttpSession session,
                                @RequestParam(name = "pageNum",required = false,defaultValue = "1")Integer pageNum,
                                @RequestParam(name = "pageSize",required = false,defaultValue = "10")Integer pageSize){
-        UserInfo userInfo = (UserInfo)session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
-        //判断用户权限
-        if (userInfo.getRole()!=Const.RoleEnum.ROLE_ADMIN.getCode()){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NO_PRIVILEGE.getCode(),Const.ResponseCodeEunm.NO_PRIVILEGE.getDesc());
-        }
+
 
         return productService.list(pageNum,pageSize);
     }
@@ -95,14 +67,7 @@ public class ProductManageController {
                                  @RequestParam(name = "productId",required = false)Integer productId,
                                  @RequestParam(name = "pageNum",required = false,defaultValue = "1")Integer pageNum,
                                  @RequestParam(name = "pageSize",required = false,defaultValue = "10")Integer pageSize){
-        UserInfo userInfo = (UserInfo)session.getAttribute(Const.CURRENT_USER);
-        if (userInfo==null){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NEED_LOGIN.getCode(),Const.ResponseCodeEunm.NEED_LOGIN.getDesc());
-        }
-        //判断用户权限
-        if (userInfo.getRole()!=Const.RoleEnum.ROLE_ADMIN.getCode()){
-            return ServerResponse.createServerResponseByFail(Const.ResponseCodeEunm.NO_PRIVILEGE.getCode(),Const.ResponseCodeEunm.NO_PRIVILEGE.getDesc());
-        }
+
 
         return productService.search(productName,productId,pageNum,pageSize);
     }
