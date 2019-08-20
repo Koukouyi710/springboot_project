@@ -33,6 +33,7 @@ import com.neuedu.dao.*;
 import com.neuedu.pojo.*;
 import com.neuedu.pojo.Product;
 import com.neuedu.service.IOrderService;
+import com.neuedu.service.IUploadService;
 import com.neuedu.utils.BigDecinalUtils;
 import com.neuedu.utils.DateUtils;
 import com.neuedu.utils.FTPUtil;
@@ -41,6 +42,7 @@ import com.neuedu.vo.OrderCartProductVO;
 import com.neuedu.vo.OrderItemVO;
 import com.neuedu.vo.OrderVO;
 import com.neuedu.vo.ShippingVO;
+import com.qiniu.storage.UploadManager;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -72,6 +74,9 @@ public class OrderServiceImpl implements IOrderService{
 
     @Autowired
     PayInfoMapper payInfoMapper;
+
+    @Autowired
+    IUploadService uploadService;
 
     @Override
     public ServerResponse create(Integer userId, Integer shippingId) {
@@ -897,10 +902,10 @@ public class OrderServiceImpl implements IOrderService{
                 log.info("filePath:" + filePath);
                 ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
                 File file = new File(filePath);
-                FTPUtil.uploadFile(Lists.newArrayList(file));
+                String Name = uploadService.uploadFile(file);
                 Map map = Maps.newHashMap();
                 map.put("orderNo",order.getOrderNo());
-                map.put("qrCode",PropertiesUtils.readByKey("imageHost")+"/qr-"+response.getOutTradeNo()+".png");
+                map.put("qrCode",PropertiesUtils.readByKey("imageHost")+Name);
                 return ServerResponse.createServerResponseBySucess(map);
 
             case FAILED:

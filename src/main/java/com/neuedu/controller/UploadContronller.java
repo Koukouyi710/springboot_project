@@ -55,7 +55,8 @@ public class UploadContronller {
                 uploadFile.transferTo(newFile);
 
                 //将文件写到七牛云上
-                return uploadService.uploadFile(newFile);
+                //return uploadService.uploadFile(newFile);
+                return ServerResponse.createServerResponseBySucess(uploadService.uploadFile(newFile));
 
             } catch (IOException e) {
                 e.printStackTrace();

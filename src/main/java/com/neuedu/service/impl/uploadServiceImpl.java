@@ -27,7 +27,8 @@ public class uploadServiceImpl implements IUploadService{
     UploadManager uploadManager;
 
     @Override
-    public ServerResponse uploadFile(File uploadFile) {
+    //public ServerResponse uploadFile(File uploadFile) {
+    public String uploadFile(File uploadFile) {
 
         //生成上传凭证
         String uploadToken = auth.uploadToken(bucketName);
@@ -37,7 +38,9 @@ public class uploadServiceImpl implements IUploadService{
             DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
             System.out.println(putRet.key);
             System.out.println(putRet.hash);
-            return ServerResponse.createServerResponseBySucess(null,putRet.hash);
+            //return ServerResponse.createServerResponseBySucess(null,putRet.hash);
+            String key = putRet.key;
+            return key;
         } catch (QiniuException e) {
             e.printStackTrace();
         }
