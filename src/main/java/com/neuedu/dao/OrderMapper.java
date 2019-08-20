@@ -67,4 +67,9 @@ public interface OrderMapper {
      * 更新发货时间
      */
     int updateSend(@Param("order")Order record);
+
+    /**
+     * 更新支付时间
+     */
+    int updatePay(@Param("order")Order record);
 }

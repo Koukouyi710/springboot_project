@@ -459,7 +459,7 @@ public class OrderServiceImpl implements IOrderService{
     @Override
     public ServerResponse alipay_callback(Map<String, String> map) {
 
-        System.out.println("====支付宝服务器回调应用服务器接口====");
+        System.out.println("====支付宝服务回调服务接口====");
 
         //获取订单号
         Long orderNo = Long.parseLong(map.get("out_trade_no"));
@@ -482,8 +482,8 @@ public class OrderServiceImpl implements IOrderService{
             //支付成功
             //更改订单状态,更改支付时间
             order.setStatus(Const.OrderStatusEunm.ORDER_PAYED.getCode());
-            order.setPaymentTime(DateUtils.stringToDate(paymentTime));
-            orderMapper.updateByPrimaryKey(order);
+            //order.setPaymentTime(DateUtils.stringToDate(paymentTime));
+            orderMapper.updatePay(order);
         }
         //保存支付信息
         PayInfo payInfo = new PayInfo();
@@ -494,6 +494,7 @@ public class OrderServiceImpl implements IOrderService{
         payInfo.setUserId(order.getUserId());
         int result = payInfoMapper.insert(payInfo);
         if (result>0){
+            System.out.println("支付信息保存成功！");
             return ServerResponse.createServerResponseBySucess();
         }
         return ServerResponse.createServerResponseByFail("支付信息保存失败！");
