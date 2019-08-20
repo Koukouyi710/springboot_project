@@ -16,3 +16,9 @@ server:
 img:
   local:
     path: D:\\upload
+
+
+qiniu:
+  accessKey: hIWocWUVAp1YWGYzNbbXZht0S8Qj_JFfAY-sA7Zj
+  secretKey: -6XzWcuDQ301oRd1mE0WmwGQpC0UkN6TxM-g8mgQ
+  bucket: imghost
