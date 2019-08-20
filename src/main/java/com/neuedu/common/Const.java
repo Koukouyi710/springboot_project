@@ -4,6 +4,7 @@ public class Const {
 
     public static final String CURRENT_USER="user";
     public static final String CURRENT_ADDR="/uploadpic/";
+    public static final String TRADE_SUCCESS = "TRADE_SUCCESS";
     public enum RoleEnum{
 
         ROLE_ADMIN(0,"管理员"),
@@ -212,5 +213,36 @@ public class Const {
             }
             return null;
         }
+    }
+
+    public enum PaymentPlatformEunm{
+
+
+        ALIPAY(1,"支付宝")
+        ;
+
+        private int code;
+        private String desc;
+        private PaymentPlatformEunm(int code,String desc){
+            this.code = code;
+            this.desc = desc;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+
     }
 }

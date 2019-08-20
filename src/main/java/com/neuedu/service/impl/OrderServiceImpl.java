@@ -70,6 +70,9 @@ public class OrderServiceImpl implements IOrderService{
     @Autowired
     ShippingMapper shippingMapper;
 
+    @Autowired
+    PayInfoMapper payInfoMapper;
+
     @Override
     public ServerResponse create(Integer userId, Integer shippingId) {
 
@@ -455,7 +458,45 @@ public class OrderServiceImpl implements IOrderService{
 
     @Override
     public ServerResponse alipay_callback(Map<String, String> map) {
-        return null;
+
+        System.out.println("====支付宝服务器回调应用服务器接口====");
+
+        //获取订单号
+        Long orderNo = Long.parseLong(map.get("out_trade_no"));
+        //获取流水号
+        String tradeNo = map.get("trade_no");
+        //获取支付状态
+        String tradeStatus = map.get("trade_status");
+        //获取支付时间
+        String paymentTime = map.get("gmt_payment");
+
+        Order order = orderMapper.findOrderListByUserIdAndOrderNO(null,orderNo);
+        if (order==null){
+            return ServerResponse.createServerResponseByFail("订单"+orderNo+"不是本商品的订单！");
+        }
+        if (order.getStatus()>=Const.OrderStatusEunm.ORDER_PAYED.getCode()){
+            //防止重复回调
+            return ServerResponse.createServerResponseByFail("支付宝重复调用！");
+        }
+        if (tradeStatus.equals(Const.TRADE_SUCCESS)){
+            //支付成功
+            //更改订单状态,更改支付时间
+            order.setStatus(Const.OrderStatusEunm.ORDER_PAYED.getCode());
+            order.setPaymentTime(DateUtils.stringToDate(paymentTime));
+            orderMapper.updateByPrimaryKey(order);
+        }
+        //保存支付信息
+        PayInfo payInfo = new PayInfo();
+        payInfo.setOrderNo(orderNo);
+        payInfo.setPayPlatform(Const.PaymentPlatformEunm.ALIPAY.getCode());
+        payInfo.setPlatformStatus(tradeStatus);
+        payInfo.setPlatformNumber(tradeNo);
+        payInfo.setUserId(order.getUserId());
+        int result = payInfoMapper.insert(payInfo);
+        if (result>0){
+            return ServerResponse.createServerResponseBySucess();
+        }
+        return ServerResponse.createServerResponseByFail("支付信息保存失败！");
     }
 
     ///////////////////////////支付相关///////////////////////////////////
@@ -821,7 +862,7 @@ public class OrderServiceImpl implements IOrderService{
                 .setUndiscountableAmount(undiscountableAmount).setSellerId(sellerId).setBody(body)
                 .setOperatorId(operatorId).setStoreId(storeId).setExtendParams(extendParams)
                 .setTimeoutExpress(timeoutExpress)
-                .setNotifyUrl("http://bpmi3t.natappfree.cc/order/alipay_callback.do")//支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
+                .setNotifyUrl("http://q76znb.natappfree.cc/order/alipay_callback.do")//支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
                 .setGoodsDetailList(goodsDetailList);
 
         AlipayF2FPrecreateResult result = tradeService.tradePrecreate(builder);
