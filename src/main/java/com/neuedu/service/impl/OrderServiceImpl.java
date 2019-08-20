@@ -30,6 +30,7 @@ import com.google.common.collect.Maps;
 import com.neuedu.common.Const;
 import com.neuedu.common.ServerResponse;
 import com.neuedu.dao.*;
+import com.neuedu.exception.MyException;
 import com.neuedu.pojo.*;
 import com.neuedu.pojo.Product;
 import com.neuedu.service.IOrderService;
@@ -48,6 +49,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
@@ -78,6 +82,12 @@ public class OrderServiceImpl implements IOrderService{
     @Autowired
     IUploadService uploadService;
 
+    @Transactional(timeout = 10,
+            isolation = Isolation.REPEATABLE_READ,
+            readOnly = false,
+            rollbackFor = MyException.class,
+            noRollbackFor = ArithmeticException.class,
+            propagation = Propagation.REQUIRED)
     @Override
     public ServerResponse create(Integer userId, Integer shippingId) {
 
