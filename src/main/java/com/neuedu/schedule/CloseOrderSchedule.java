@@ -19,8 +19,8 @@ public class CloseOrderSchedule {
     IOrderService orderService;
 
     //
-    //@Scheduled(cron = "* * */1 * * *")
-    @Scheduled(cron = "*/10 * * * * *")
+    //@Scheduled(cron = "0 0 */1 * * *")
+    @Scheduled(cron = "0 */5 * * * *")
     public void closeOrder(){
 
         //step1:
