@@ -33,3 +33,8 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: countSql
+
+
+order:
+  close:
+    timeout: 1

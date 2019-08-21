@@ -34,10 +34,10 @@ import com.neuedu.exception.MyException;
 import com.neuedu.pojo.*;
 import com.neuedu.pojo.Product;
 import com.neuedu.service.IOrderService;
+import com.neuedu.service.IProductService;
 import com.neuedu.service.IUploadService;
 import com.neuedu.utils.BigDecinalUtils;
 import com.neuedu.utils.DateUtils;
-import com.neuedu.utils.FTPUtil;
 import com.neuedu.utils.PropertiesUtils;
 import com.neuedu.vo.OrderCartProductVO;
 import com.neuedu.vo.OrderItemVO;
@@ -81,6 +81,7 @@ public class OrderServiceImpl implements IOrderService{
 
     @Autowired
     IUploadService uploadService;
+
 
     @Transactional(timeout = 10,
             isolation = Isolation.REPEATABLE_READ,
@@ -530,6 +531,37 @@ public class OrderServiceImpl implements IOrderService{
             return ServerResponse.createServerResponseBySucess();
         }
         return ServerResponse.createServerResponseByFail("支付信息保存失败！");
+    }
+
+    @Override
+    public List<Order> closeOrder(String closeOrderDate) {
+        List<Order> orderList = orderMapper.selectOrdersByCreateTime(closeOrderDate);
+        if (orderList==null||orderList.size()==0){
+            return null;
+        }
+        for (Order order:orderList){
+            if (order.getStatus()==Const.OrderStatusEunm.ORDER_UNPAY.getCode()){
+                //查询订单明细，回复商品库存
+                List<OrderItem> orderItemList = orderItemMapper.findOrderItemListByUserIdAndOrderNO(null,order.getOrderNo());
+                if (orderItemList==null||orderItemList.size()==0){
+                    continue;
+                }
+                for (OrderItem orderItem:orderItemList){
+                    Product product = productMapper.selectByPrimaryKey(orderItem.getProductId());
+                    if (product==null){
+                        continue;
+                    }
+                    product.setStock(product.getStock()+orderItem.getQuantity());
+                    int result = productMapper.updateByPrimaryKey(product);
+                    if (result<=0){
+                        continue;
+                    }
+                }
+                order.setStatus(Const.OrderStatusEunm.ORDER_CLOSED.getCode());
+                orderMapper.updateClose(order);
+            }
+        }
+        return null;
     }
 
     ///////////////////////////支付相关///////////////////////////////////

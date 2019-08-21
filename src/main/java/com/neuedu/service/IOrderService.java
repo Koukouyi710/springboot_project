@@ -1,7 +1,9 @@
 package com.neuedu.service;
 
 import com.neuedu.common.ServerResponse;
+import com.neuedu.pojo.Order;
 
+import java.util.List;
 import java.util.Map;
 
 public interface IOrderService {
@@ -57,4 +59,8 @@ public interface IOrderService {
      */
     public ServerResponse alipay_callback(Map<String,String> map);
 
+    /**
+     * 查询要关闭订单
+     */
+    public List<Order> closeOrder(String closeOrderDate);
 }

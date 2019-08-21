@@ -51,4 +51,9 @@ public interface IProductService {
      */
     public ServerResponse topcategory(Integer sid);
 
+    /**
+     *根据Id查询商品
+     */
+    public ServerResponse findProductById(Integer productId);
+
 }

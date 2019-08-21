@@ -340,4 +340,16 @@ public class ProductServiceImpl implements IProductService{
         }
         return productCategoryVO;
     }
+
+    @Override
+    public ServerResponse findProductById(Integer productId) {
+        if (productId==null){
+            return ServerResponse.createServerResponseByFail("商品id不能为空！");
+        }
+        Product product = productMapper.selectByPrimaryKey(productId);
+        if (product==null){
+            return ServerResponse.createServerResponseByFail("商品不存在！");
+        }
+        return ServerResponse.createServerResponseBySucess(product);
+    }
 }

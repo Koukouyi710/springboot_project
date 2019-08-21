@@ -72,4 +72,14 @@ public interface OrderMapper {
      * 更新支付时间
      */
     int updatePay(@Param("order")Order record);
+
+    /**
+     * 更新关闭时间
+     */
+    int updateClose(@Param("order")Order record);
+
+    /**
+     * 查询需要关闭的订单
+     */
+    List<Order> selectOrdersByCreateTime(@Param("time")String time);
 }
