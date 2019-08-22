@@ -32,7 +32,10 @@ public class UserController {
     @RequestMapping(value = "login.do")
     public ServerResponse login(UserInfo userInfo, HttpSession session, HttpServletResponse response){
 
-        String pwd = MD5Utils.getMD5Code(userInfo.getPassword());
+        String pwd = null;
+        if (userInfo.getPassword()!=null&&!userInfo.getPassword().equals("")){
+            pwd = MD5Utils.getMD5Code(userInfo.getPassword());
+        }
         userInfo.setPassword(pwd);
         ServerResponse serverResponse = userService.login(userInfo);
         if(serverResponse.isSucess()){

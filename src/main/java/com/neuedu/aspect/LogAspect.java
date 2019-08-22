@@ -1,9 +1,7 @@
 package com.neuedu.aspect;
 
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
 /**
@@ -28,4 +26,35 @@ public class LogAspect {
     public void after(){
         System.out.println("=========执行结束=========");
     }
+
+    //抛异常通知
+    @AfterThrowing("pointcut()")
+    public void afterthrow(){
+        System.out.println("=========发生错误=========");
+    }
+
+    //返回时通知
+    @AfterReturning("pointcut()")
+    public void afterreturn(){
+        System.out.println("=========返回结果=========");
+    }
+
+    //环绕通知
+    @Around("pointcut()")
+    public Object around(ProceedingJoinPoint proceedingJoinPoint){
+        Object obj = null;
+        try {
+            System.out.println("=====Around—before=====");
+            //执行切入点匹配的方法
+            obj = proceedingJoinPoint.proceed();
+            System.out.println("=====Around—after=====");
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+            System.out.println("=====Around—throwing=====");
+        }
+        System.out.println("=====Around—after_returning=====");
+
+        return obj;
+    }
+
 }
