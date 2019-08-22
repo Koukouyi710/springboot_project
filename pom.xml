@@ -152,6 +152,28 @@
 			<version>[7.2.0, 7.2.99]</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.alipay.api</groupId>
+			<artifactId>apipay-sdk-java</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/resources/libs/alipay-sdk-java-3.3.0.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alipay.demo.trade</groupId>
+			<artifactId>apipay-trade-sdk</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/resources/libs/alipay-trade-sdk-20161215.jar</systemPath>
+		</dependency>
+
+		<!--aop-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -161,20 +183,21 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<includeSystemScope>true</includeSystemScope>
 					<jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
+				<!--<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
 					<encoding>UTF-8</encoding>
 					<compilerArguments>
 						<extdirs>${project.basedir}/src/main/resources/libs</extdirs>
 					</compilerArguments>
-				</configuration>
+				</configuration>-->
 			</plugin>
 		</plugins>
 	</build>
